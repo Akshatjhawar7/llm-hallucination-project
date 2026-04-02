@@ -18,7 +18,7 @@ def query_ollama(prompt):
         "stream": False,
         "options": {
             "temperature": 0,
-            "num_predict": 128,
+            "num_predict": 256,
         }
 
 

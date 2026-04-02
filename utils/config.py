@@ -11,3 +11,4 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
 MAX_QUESTIONS = 10
+DATASET_NAME = "truthful_qa"

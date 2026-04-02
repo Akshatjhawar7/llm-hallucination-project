@@ -1,13 +1,26 @@
-from utils.llm import query_llm
-from utils.config import LLM_PROVIDER
+from evaluation.runner import run_experiment
+from evaluation.logger import save_results_json, save_results_csv
+from evaluation.metrics import summarize_results
+from methods.prompt_constraints import prompt_constraints_method
 
 if __name__ == "__main__":
-    prompt = "Answer in 1 word only. What is the capital of France?"
-    result = query_llm(prompt)
+    results = run_experiment(
+        method_fn = prompt_constraints_method, 
+        method_name = "prompt_constraints_v1", 
+        max_questions = 5
+    )
 
-    print(f"Provider: {LLM_PROVIDER}")
-    print(f"Response: {result['response']}")
-    print(f"Prompt Tokens: {result['prompt_tokens']}")
-    print(f"Completion Tokens: {result['completion_tokens']}")
-    print(f"Total Tokens: {result['total_tokens']}")
-    print(f"Latency: {round(result['latency'], 2)} seconds")
+    summary = summarize_results(results)
+
+    json_path = save_results_json(results, "prompt_constraints_test.json")
+    csv_path = save_results_csv(results, "prompt_constraints_test.csv")
+
+    print(f"Saved JSON to: {json_path}")
+    print(f"Saved CSV to: {csv_path}")
+
+    print("\nSummary:")
+    for key, value in summary.items():
+        print(f"{key}: {value}")
+
+    print("\nSample result:")
+    print(results[0])
