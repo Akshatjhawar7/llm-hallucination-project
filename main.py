@@ -1,22 +1,20 @@
 from evaluation.runner import run_experiment
 from evaluation.logger import save_results_json, save_results_csv
 from evaluation.metrics import summarize_results
-from methods.prompt_constraints import prompt_constraints_method
+from methods.self_correction import self_correction_method
 
-def method_wrapper(question):
-    return prompt_constraints_method(question, version="v3")
 
 if __name__ == "__main__":
     results = run_experiment(
-        method_fn = method_wrapper, 
-        method_name = "prompt_constraints_v3", 
+        method_fn = self_correction_method, 
+        method_name = "self_correction", 
         max_questions = 5
     )
 
     summary = summarize_results(results)
 
-    json_path = save_results_json(results, "prompt_constraints_test.json")
-    csv_path = save_results_csv(results, "prompt_constraints_test.csv")
+    json_path = save_results_json(results, "self_correction_test.json")
+    csv_path = save_results_csv(results, "self_correction_test.csv")
 
     print(f"Saved JSON to: {json_path}")
     print(f"Saved CSV to: {csv_path}")

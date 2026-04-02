@@ -20,6 +20,8 @@ def run_experiment(method_fn, method_name, max_questions=10):
                 "question": question,
                 "reference_answer": reference_answer,
                 "model_response": output.get("response", ""),
+                "initial_answer": output.get("initial_answer"),
+                "critique": output.get("critique"),
                 "prompt_tokens": output.get("prompt_tokens"),
                 "completion_tokens": output.get("completion_tokens"),
                 "total_tokens": output.get("total_tokens"),
