@@ -3,10 +3,13 @@ from evaluation.logger import save_results_json, save_results_csv
 from evaluation.metrics import summarize_results
 from methods.prompt_constraints import prompt_constraints_method
 
+def method_wrapper(question):
+    return prompt_constraints_method(question, version="v3")
+
 if __name__ == "__main__":
     results = run_experiment(
-        method_fn = prompt_constraints_method, 
-        method_name = "prompt_constraints_v1", 
+        method_fn = method_wrapper, 
+        method_name = "prompt_constraints_v3", 
         max_questions = 5
     )
 
