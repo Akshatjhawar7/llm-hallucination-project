@@ -9,7 +9,7 @@ from utils.config import (
 )
 from openai import OpenAI
 
-def query_ollama(prompt):
+def query_ollama(prompt, temperature=0):
     start = time.time()
     
     payload = {
@@ -17,7 +17,7 @@ def query_ollama(prompt):
         "prompt": prompt,
         "stream": False,
         "options": {
-            "temperature": 0,
+            "temperature": temperature,
             "num_predict": 256,
         }
 
@@ -38,14 +38,15 @@ def query_ollama(prompt):
         "latency": end - start
     }
 
-def query_openai(prompt):
+def query_openai(prompt, temperature=0):
 
     client = OpenAI(api_key=OPENAI_API_KEY)
     start = time.time()
 
     response = client.chat.completions.create(
         model=OPENAI_MODEL,
-        messages=[{"role": "user", "content": prompt}]
+        messages=[{"role": "user", "content": prompt}],
+        temperature=temperature
     )
     
     end = time.time()
@@ -58,10 +59,10 @@ def query_openai(prompt):
         "latency": end - start
     }
 
-def query_llm(prompt):
+def query_llm(prompt, temperature=0):
     if LLM_PROVIDER.lower() == "ollama":
-        return query_ollama(prompt)
+        return query_ollama(prompt, temperature=temperature)
     elif LLM_PROVIDER.lower() == "openai":
-        return query_openai(prompt)
+        return query_openai(prompt, temperature=temperature)
     else:
         raise ValueError(f"Unsupported LLM provider: {LLM_PROVIDER}")
